@@ -1,10 +1,10 @@
 //package com.devdaily.sqlprocessortests;
-
 import java.sql.*;
+import com.mysql.jdbc.Driver;
 
 public class JDBCConnectTest
 {
-  Connection conn;
+  java.sql.Connection conn;
 
   public static void main(String[] args)
   {
@@ -15,21 +15,22 @@ public class JDBCConnectTest
  
   public JDBCConnectTest()
   {
-      System.out.println("test penis");
+      System.out.println("test");
     try
     {
         System.out.println("test2 try ConnectTest");
-      Class.forName("com.mysql.jdbc.Driver").newInstance();
-        System.out.println("after class");
-      String url = "jdbc:mysql://174.132.159.251/kpoirier_CPSC2301";
-      conn = DriverManager.getConnection(url, "kpoirier_User", "foobar");
+       // Class.forName("com.mysql.jdbc.Driver");
+        System.out.println("after class.forName");
+        DriverManager.registerDriver(new com.mysql.jdbc.Driver());
+        String url = "jdbc:mysql://174.132.159.251:3306/kpoirier_CPSC2301";
+        conn = DriverManager.getConnection(url, "kpoirier_User", "foobar");
         System.out.println("test3 after connection is made");
-      doTests();
-      conn.close();
+        doTests();
+        conn.close();
     }
-    catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
-    catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
-    catch (InstantiationException ex) {System.err.println(ex.getMessage());}
+   // catch (ClassNotFoundException ex) {System.err.println(ex.getMessage());}
+    //catch (IllegalAccessException ex) {System.err.println(ex.getMessage());}
+    //catch (InstantiationException ex) {System.err.println(ex.getMessage());}
     catch (SQLException ex)           {System.err.println(ex.getMessage());}
   }
 
@@ -48,7 +49,7 @@ public class JDBCConnectTest
     String query = "SELECT * FROM Customer";
     try
     {
-      Statement st = conn.createStatement();
+      java.sql.Statement st = conn.createStatement();
       ResultSet rs = st.executeQuery(query);
       while (rs.next())
       {
